@@ -1,0 +1,7 @@
+preference:
+  dim: 5
+
+vote:
+  quad:
+    token_const: 1.0
+    vote_const: 1.0
