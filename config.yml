@@ -5,3 +5,6 @@ vote:
   quad:
     token_const: 1.0
     vote_const: 1.0
+    p_a: 1.0
+    p_b: 10.0
+    p_c: 10.0

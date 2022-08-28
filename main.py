@@ -1,3 +1,4 @@
+import matplotlib.pyplot as plt
 from ruamel import yaml
 import numpy as np
 
@@ -8,22 +9,24 @@ with open('./config.yml', 'r') as f:
 from Work import *
 from Network import *
 from Vote import *
+from painter import *
 
-n_work=2
-n_member=5
-works=[]
-members=[]
+n_work = 50
+n_member = 7
+works = []
+members = []
 for i in range(n_work):
-    works.append(Work(i,configs))
+    works.append(Work(i, configs))
 for i in range(n_member):
-    members.append(Member(i,configs,token=1000.0))
+    members.append(Member(i, configs, token=1000.0))
 
-vote_test=Vote_quadratic(members,works,configs)
+vote_test = Vote_quadratic(members, works, configs)
 
 vote_test.voting()
-benefit=vote_test.collect_benefit()
+benefit = vote_test.collect_benefit()
 
-for i in range(n_work):
-    print(np.sum(benefit[i]))
-    print(vote_test.votes[i])
-    print(vote_test.vote_ans[i])
+plt.subplot(1, 2, 1)
+token_tendency(vote_test.token_voting)
+plt.subplot(1, 2, 2)
+draw_prefer_diff_minispantree(members)
+plt.show()

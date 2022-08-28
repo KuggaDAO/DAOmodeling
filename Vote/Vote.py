@@ -11,13 +11,19 @@ class Vote_quadratic:
     def voting(self):
         self.votes = []
         self.vote_ans = []
+        self.token_voting = []
+        self.token_voting.append(self.collect_tokens())
         for i in range(len(self.works)):
+            if i % 5 == 0:
+                print("work:{}".format(i))
+
             _votes, _vote_ans = self.vote_once(i)
 
             self.votes.append(_votes)
             self.vote_ans.append(_vote_ans)
 
             self.token_operation(_votes, _vote_ans, i)
+            self.token_voting.append(self.collect_tokens())
 
     def vote_once(self, work_id):
         votes = []
@@ -25,6 +31,7 @@ class Vote_quadratic:
             vote = member.quad_vote(self.works[work_id])
             votes.append(vote)
         votes = np.array(votes)
+
         vote_num = np.sum(votes)
         if vote_num > 0:
             vote_ans = True
@@ -57,3 +64,9 @@ class Vote_quadratic:
                 _benefit.append(np.sum(member.preference * work.preference))
             benefit.append(_benefit)
         return np.array(benefit)
+
+    def collect_tokens(self):
+        tokens = []
+        for member in self.members:
+            tokens.append(member.token)
+        return tokens
