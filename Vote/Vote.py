@@ -49,7 +49,8 @@ class Vote_quadratic:
         return the vote details and the vote result.
         this vote is operated under the speculation that everyone
         can see the current voting trend.
-        >>> self.vote_once_visible(0)
+        !这里的doctest没有测试作用
+        >>> v.vote_once_visible(0)
         [-13.2, 10, 3.3], True
         """
         votes = []
@@ -62,6 +63,7 @@ class Vote_quadratic:
                 agree_votes += vote
             else:
                 reject_votes += -vote
+        votes = np.array(votes)
         return votes, agree_votes > reject_votes
 
 

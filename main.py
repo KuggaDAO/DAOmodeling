@@ -11,7 +11,10 @@ from Network import *
 from Vote import *
 from painter import *
 
-n_work = 50
+
+#change the number of works here
+n_work = 15
+#change the number of members here
 n_member = 7
 works = []
 members = []
@@ -22,11 +25,11 @@ for i in range(n_member):
 
 vote_test = Vote_quadratic(members, works, configs)
 
-vote_test.voting()
-#you can specify version_name=1.1/1.2 to get different results
-#version 1.2 now have bugs
+vote_test.voting(version=1.2)
+#you can specify version=1.1/1.2 to get different results
 benefit = vote_test.collect_benefit()
 
+#plot configurations
 plt.subplot(1, 2, 1)
 token_tendency(vote_test.token_voting)
 plt.subplot(1, 2, 2)

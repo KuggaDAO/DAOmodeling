@@ -3,7 +3,7 @@ preference:
 
 vote:
   quad:
-    token_const: 1.0
+    token_const: 0.01
     vote_const: 1.0
     p_a: 1.0
     p_b: 10.0
