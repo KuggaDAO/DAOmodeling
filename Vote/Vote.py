@@ -8,7 +8,10 @@ class Vote_quadratic:
         self.configs = configs
         self.votes = []
 
-    def voting(self):
+    def voting(self, version=1.1):
+        """
+        do the voting
+        """
         self.votes = []
         self.vote_ans = []
         self.token_voting = []
@@ -16,8 +19,10 @@ class Vote_quadratic:
         for i in range(len(self.works)):
             if i % 5 == 0:
                 print("work:{}".format(i))
-
-            _votes, _vote_ans = self.vote_once(i)
+            if version == 1.1:
+                _votes, _vote_ans = self.vote_once(i)
+            elif version == 1.2:
+                _votes, _vote_ans = self.vote_once_visible(i)
 
             self.votes.append(_votes)
             self.vote_ans.append(_vote_ans)
@@ -38,6 +43,27 @@ class Vote_quadratic:
         else:
             vote_ans = False
         return votes, vote_ans
+
+    def vote_once_visible(self, work_id):
+        """
+        return the vote details and the vote result.
+        this vote is operated under the speculation that everyone
+        can see the current voting trend.
+        >>> self.vote_once_visible(0)
+        [-13.2, 10, 3.3], True
+        """
+        votes = []
+        agree_votes, reject_votes = 0, 0#record the number of currentvoting trend
+        for member in self.members:
+            T = max(20, (agree_votes + reject_votes) * 2)#还没想好怎么搞，就先这样吧
+            vote = member.votes_with_forecast(self.works[work_id], T, agree_votes, reject_votes)
+            votes.append(vote)
+            if vote > 0:
+                agree_votes += vote
+            else:
+                reject_votes += -vote
+        return votes, agree_votes > reject_votes
+
 
     def token_operation(self, votes, vote_ans, work_id):
         left_token = []

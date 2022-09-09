@@ -23,6 +23,8 @@ for i in range(n_member):
 vote_test = Vote_quadratic(members, works, configs)
 
 vote_test.voting()
+#you can specify version_name=1.1/1.2 to get different results
+#version 1.2 now have bugs
 benefit = vote_test.collect_benefit()
 
 plt.subplot(1, 2, 1)

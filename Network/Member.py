@@ -1,5 +1,6 @@
 import numpy as np
 import sympy as sp
+import math
 
 class Member:
     def __init__(self, label, configs, emotion=np.random.rand(), token=0.0):
@@ -37,6 +38,10 @@ class Member:
         # nv>0为支持票，nv<0为反对票
         return nv
 
+    def cal_benefit(self, work):
+        #calculate the benefit between a work and a member
+        return np.sum(self.preference * work.preference)
+
     def probability_estimate(self, benefit):
         t = sp.Symbol('t')
         if benefit > 0:
@@ -56,3 +61,42 @@ class Member:
                 value = f.evalf(subs={t: solution[i]})
                 pos = i
         return solution[pos]
+
+    def votes_with_forecast(self, work, T, a, r):
+        """
+        return the number of votes going to be made
+        with estimating the winning odds of the situation
+        >>> self.votes_with_forecast(20, 10, 10)
+        3
+        """
+        benefit = self.cal_benefit(work)
+        expectation = []
+        for t in range(20):
+            if benefit > 0:
+                expectation.append((2 * self.binary_probability(T, a+t, r) - 1) * benefit - self.quad_token_const * t * t)
+            else:
+                expectation.append(-(2 * self.binary_probability(T, a, r+t) - 1) * benefit - self.quad_token_const * t * t)
+        return expectation.index(max(expectation))
+
+    def binary_probability(self, T, a, r):
+        """
+        return the odds of agree the work
+        formula: (n-k)*(n k)*integrate t^n-k-1 * (1-t)^k dt 
+        from 0 to 1-p
+        >>> self.binary_probability(20, 5, 7)
+        """
+        n = T - a - r#number of votes remaining
+        k = T // 2 - a + 1#votes needed to win
+        if k > n:
+            return 0
+        if T // 2 - r + 1 > n:
+            return 1
+        t = sp.Symbol('t')
+        f = t**(n-k-1) * (1-t)**k
+        lose_or_tie = (n - k) * math.comb(n, k) * sp.integrate(f, (t, 0, 0.5))#note that if n is a even number the vote may tie
+        if T % 2 == 0:
+            v = T // 2 - a
+            tie_probability = math.comb(n, v) * 0.5**v * 0.5**n-v
+        else:
+            tie_probability = 0
+        return 1 - lose_or_tie + tie_probability * 0.5
