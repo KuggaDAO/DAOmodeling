@@ -3,8 +3,8 @@ preference:
 
 vote:
   quad:
-    token_const: 1.0
+    token_const: 1
     vote_const: 1.0
-    p_a: 1.0
-    p_b: 10.0
-    p_c: 10.0
+    p_a: 0.5
+    p_b: 0.5
+    p_c: 5.0
