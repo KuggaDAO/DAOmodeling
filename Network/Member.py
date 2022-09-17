@@ -28,12 +28,14 @@ class Member:
         else:
             return False
 
-    def quad_vote(self, work):
+    def quad_vote(self, work, forget_chance):
         # apply the quadratic voting method
         # model: expectation = benefit * (2 * self.c * nv - 1 ) - nv ** 2 ,
         # nv stands of number of votes, self.c is a tunable parameter
         benefit = np.sum(self.preference * work.preference)
         # nv = (self.quad_vote_const / self.quad_token_const) * benefit
+        if np.random.random() < forget_chance:
+            return 0
         nv = self.probability_estimate(benefit)
         # nv>0为支持票，nv<0为反对票
         return nv

@@ -13,13 +13,17 @@ from painter import *
 
 
 #change the number of works here
-n_work = 15
+n_work = 50
 #change the number of members here
 n_member = 7
+#
+n_manual_work = 5
 works = []
 members = []
 for i in range(n_work):
     works.append(Work(i, configs))
+for i in range(n_manual_work):
+    works.append(Work(i+n_work, configs, manual=configs['manual_works'][i]))
 for i in range(n_member):
     members.append(Member(i, configs, token=1000.0))
 
