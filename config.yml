@@ -3,11 +3,11 @@ preference:
 
 vote:
   quad:
-    token_const: 0.01
+    token_const: 1
     vote_const: 1.0
-    p_a: 1.0
-    p_b: 10.0
-    p_c: 10.0
+    p_a: 0.5
+    p_b: 0.5
+    p_c: 5.0
 
 manual_works:
   - [0.27795239, -2.57882503, 0.3817649, 1.42367345, -1.16724625]

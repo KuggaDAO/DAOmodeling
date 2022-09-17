@@ -11,7 +11,7 @@ from Network import *
 from Vote import *
 from painter import *
 
-
+"""
 #change the number of works here
 n_work = 50
 #change the number of members here
@@ -39,3 +39,21 @@ token_tendency(vote_test.token_voting)
 plt.subplot(1, 2, 2)
 draw_prefer_diff_minispantree(members)
 plt.show()
+"""
+
+work = Work(1, configs)
+n_member = 10
+members = []
+benefit = []
+for i in range(n_member):
+    members.append(Member(i, configs, token=1000.0))
+vote_test = Vote_Sequential(members, work, configs)
+vote_test.vote()
+for i in range(n_member):
+    benefit.append(np.sum(members[i].preference * work.preference))
+
+print(vote_test.condition.votes)
+print(benefit)
+print(sum(vote_test.condition.votes))
+print(sum(benefit))
+print(vote_test.outcome)

@@ -2,5 +2,4 @@ networkx~=2.8.4
 matplotlib~=3.5.1
 numpy~=1.23.1
 ruamel.yaml
-sympy
-pygraphviz
+sympy~=1.10.1
