@@ -82,7 +82,6 @@ class Member:
                 expectation.append(e * benefit - self.quad_token_const * t * t)
             else:
                 expectation.append((-e) * benefit - self.quad_token_const * t * t)
-        print(expectation.index(max(expectation)), end=" ")
         return expectation.index(max(expectation))
 
     def binary_probability(self, T, a, r):
