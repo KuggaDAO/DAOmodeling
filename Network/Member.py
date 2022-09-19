@@ -24,7 +24,7 @@ class Member:
     def equal_vote(self, work):
         # one person one vote
         benefit = np.sum(self.preference * work.preference)
-        if benefit > 0
+        if benefit > 0:
             return True
         else:
             return False
