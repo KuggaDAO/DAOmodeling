@@ -1,0 +1,16 @@
+preference:
+  dim: 5
+  Member:
+    distribution:
+      type: Guassion
+      sigma: 1
+      mu: 0
+      low: None
+      high: None
+  Work:
+    distribution:
+      type: Gaussion
+      sigma: 1
+      mu: 0
+      low: None
+      high: None
