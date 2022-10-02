@@ -3,25 +3,40 @@ import sympy as sp
 import math
 
 class Member:
-    def __init__(self, label=None, token=0.0, **configs):
+    def __init__(self, label=None, token=0.0, logic="euqal", configs):
         """
         初始化一个Member对象
         """
         self.label = label#用户的标签
         self.token = token#用户的代币量
+        self.logic_type = logic_type
         self.configs = configs
         self.init_preference()
 
     def init_preference(self):
-        self.preference = np.random.rand(5)
+        pf_configs = self.configs['preference']['Member']
+        dis_configs = pf_configs['distribution']
+
+        if dis_configs['type']=="Gaussion":
+            self.preference = np.random.randn(
+                pf_configs['dim']
+            )*dis_configs['sigma'] + dis_configs['mu']
+        
+        elif dis_configs['type']=="Uniform":
+            self.preference = np.random.uniform(
+                dis_configs['low'],dis_configs['high'],
+                size=[pf_configs['dim']]
+            )
 
 ############以下是基础方法############
         
-    def decide(self, work, logic):
+    def decide(self, work):
         """
         普通成员的vote.
         """
-        if logic == 'nonlinear':
+        if logic == 'equal':
+            return self.equal_vote(work)
+        elif logic == 'nonlinear':
             return self.nonlinear_logic(work)
         elif logic == 'sequential':
             return self.sequential_logic(work)
@@ -31,15 +46,7 @@ class Member:
             raise RuntimeError("vote logic not found")
     
     def __str__(self):
-        return self.label
-
-    def equal_vote(self, work):
-        # one person one vote
-        benefit = np.sum(self.preference * work.preference)
-        if benefit > 0:
-            return True
-        else:
-            return False
+        return "Member:"+str(self.label)
 
     def cal_benefit(self, work):
         #calculate the benefit between a work and a member
@@ -47,14 +54,23 @@ class Member:
 
 ###########以下是投票逻辑##############
 
+    def equal_vote(self, work):
+        # one person one vote
+        benefit = self.cal_benefit(work)
+        if benefit > 0:
+            return 1
+        else:
+            return -1
+
     def nonlinear_logic(self, work):
         """
         非线性的概率估计投票方法
         """
-        a = self.configs['a']
-        b = self.configs['b']
-        c = self.configs['c']
-        quad_token_const = self.configs['quad_token_const']
+        log_configs = self.configs['preference']['logic']['const']
+        a = self.log_configs['a']
+        b = self.log_configs['b']
+        c = self.log_configs['c']
+        quad_token_const = self.log_configs['quad_token_const']
         benefit = self.cal_benefit(work)
         t = sp.Symbol('t')
         if benefit > 0:
@@ -75,12 +91,12 @@ class Member:
                 pos = i
         return solution[pos]
 
-    def sequential_logic(self):
+    def sequential_logic(self, work):
         """
         有顺序地估计概率的投票方法
         """
         c = self.configs['c']
-        benefit = self.cal_benefit(vote.work.preference)
+        benefit = self.cal_benefit(work)
         v = sum(condition.record)
         if v*benefit > 0:
             flag = 1
@@ -108,7 +124,7 @@ class Member:
                 pos = i
         return solution[pos]
 
-    def odds_logic(self, vote):
+    def odds_logic(self, work):
         """
         根据投票形式估计胜率的投票方法
         """
@@ -142,13 +158,13 @@ class Member:
                 tie_probability = 0
             return 1 - lose_or_tie + tie_probability * 0.5
         
-        benefit = self.cal_benefit(vote)
+        benefit = self.cal_benefit(work)
         expectation = []
         #因为无法求导，这里用的方法是逐一求出并手动挑选出最大值。
         for t in range(20):
             e = 2 * self.binary_probability(T, a+t, r) - 1
             if benefit > 0:
-                expectation.append(e * benefit - self.quad_token_const * t * t)
+                expectation.append(e * benefit - quad_token_const * t * t)
             else:
-                expectation.append((-e) * benefit - self.quad_token_const * t * t)
+                expectation.append((-e) * benefit - quad_token_const * t * t)
         return expectation.index(max(expectation))

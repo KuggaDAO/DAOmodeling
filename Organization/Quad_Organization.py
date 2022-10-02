@@ -1,4 +1,4 @@
-import numpy as np
+Rmport numpy as np
 from .Organization import Organization
 
 class Quad_Organization(Organization):

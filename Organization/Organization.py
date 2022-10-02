@@ -25,7 +25,6 @@ class Organization:
         else:
             raise TypeError("item must be member(s)")
 
-
     def show_works(self):
         for work_id in range(len(self.works)):
             print('id: {0} {1}'.format(work_id, self.works[work_id].preference))
@@ -34,15 +33,15 @@ class Organization:
         for member_id in range(len(self.members)):
             print('id: {0} {1}'.format(member_id, self.members[member_id].preference))
 
-    def vote_all(self, logic):
+    def vote_all(self):
         l = len(self.works)
         for work_id in range(l-1, -1, -1):
-            self.vote_once(work_id, logic)
+            self.vote_once(work_id)
 
-    def vote_once(self, work_id, logic):
+    def vote_once(self, work_id):
         work = self.works[work_id]
         for member in self.members:
-            vote = member.decide(work, logic)
+            vote = member.decide(work)
             self.reduce_member_token(member, vote)
             work.votes.append(vote)
         work.voted = True

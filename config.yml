@@ -1,17 +1,22 @@
 preference:
   dim: 5
-
-vote:
-  quad:
-    token_const: 1
-    vote_const: 1.0
-    p_a: 0.5
-    p_b: 0.5
-    p_c: 5.0
-
-manual_works:
-  - [0.27795239, -2.57882503, 0.3817649, 1.42367345, -1.16724625]
-  - [-0.22408299, 0.63006614, -0.41714538, 1.27820764, 0.92479163]
-  - [-5.88303, -5.46116413, -6.13305507,  -2.44968809, -7.73132153]
-  - [0.34966859, 0.85655008, 0.16045328, 0.87908218, 0.25303772]
-  - [-10.0, -20.3, -15.6, -30.0, -5.0]
+  Member:
+    distribution:
+      type: Guassion
+      sigma: 1
+      mu: 0
+      low: None
+      high: None
+  Work:
+    distribution:
+      type: Gaussion
+      sigma: 1
+      mu: 0
+      low: None
+      high: None
+  Logic:
+    const:
+      a: 1.0
+      b: 1.0
+      c: 1.0
+      quad_token_const: 1.0
