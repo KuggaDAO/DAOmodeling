@@ -7,32 +7,11 @@ with open('./config.yml', 'r') as f:
     configs = yaml.load(f, yaml.Loader)
 
 from Work import *
-from Network import *
-from Vote import *
-from painter import *
+from Member import *
+from Organization import *
+from Painter import *
 
 """
-#change the number of works here
-n_work = 50
-#change the number of members here
-n_member = 7
-#
-n_manual_work = 5
-works = []
-members = []
-for i in range(n_work):
-    works.append(Work(i, configs))
-for i in range(n_manual_work):
-    works.append(Work(i+n_work, configs, manual=configs['manual_works'][i]))
-for i in range(n_member):
-    members.append(Member(i, configs, token=1000.0))
-
-vote_test = Vote_quadratic(members, works, configs)
-
-vote_test.voting(version=1.2)
-#you can specify version=1.1/1.2 to get different results
-benefit = vote_test.collect_benefit()
-
 #plot configurations
 plt.subplot(1, 2, 1)
 token_tendency(vote_test.token_voting)
@@ -41,19 +20,12 @@ draw_prefer_diff_minispantree(members)
 plt.show()
 """
 
-work = Work(1, configs)
-n_member = 10
+works = []
 members = []
-benefit = []
-for i in range(n_member):
-    members.append(Member(i, configs, token=1000.0))
-vote_test = Vote_Sequential(members, work, configs)
-vote_test.vote()
-for i in range(n_member):
-    benefit.append(np.sum(members[i].preference * work.preference))
-
-print(vote_test.condition.votes)
-print(benefit)
-print(sum(vote_test.condition.votes))
-print(sum(benefit))
-print(vote_test.outcome)
+for _ in range(5):
+    works.append(Work())
+    members.append(Member(token=1000.0, a=1.0, b=1.0, c=10.0, quad_token_const=0.1))
+o = Organization()
+o.add_work(works)
+o.add_member(members)
+o.vote_all('nonlinear')
