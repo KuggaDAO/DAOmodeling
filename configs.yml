@@ -1,0 +1,26 @@
+preference:
+  dim: 5
+  Member:
+    distribution:
+      type: Guassion
+      # 高斯分布Gaussion的参数
+      sigma: 1
+      mu: 0
+      # 均匀分布Uniform的参数
+      low: None
+      high: None
+  Work:
+    distribution:
+      type: Gaussion
+      # 高斯分布Gaussion的参数
+      sigma: 1
+      mu: 0
+      # 均匀分布Uniform的参数
+      low: None
+      high: None
+
+rule:
+  quadratic:
+    # 投n票需要消耗token_const*n*n代币
+    token_const: 1.0
+  
