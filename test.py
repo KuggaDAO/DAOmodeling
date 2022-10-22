@@ -4,6 +4,7 @@ import numpy as np
 
 from work import *
 from member import *
+# from runners import *
 
 def set_configs():
     with open('./configs.yml', 'r') as f:
@@ -11,10 +12,13 @@ def set_configs():
     
     Work.configs=configs
     Member.configs=configs
+    # Runner.configs=configs
 
 
 set_configs()
 
-w1=Work(random=False,preferences=[[1,2,3,4,5],[1,2,3,4,5]])
+m1=Member(label="sfovbo")
+m2=Member()
 
-print(w1.preferences)
+w1=Work()
+w2=Work()

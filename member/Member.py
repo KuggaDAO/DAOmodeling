@@ -35,6 +35,8 @@ class Member:
                 dis_configs['low'],dis_configs['high'],
                 size=[pf_configs['dim']]
             )
+        else:
+            self.preference=None
     
     # 打印身份信息
     def __str__(self):
@@ -51,3 +53,4 @@ class Member:
         
         if self.logic_type=="Equal_Logic":
             return Equal_Logic.calculation(self,condition)
+    

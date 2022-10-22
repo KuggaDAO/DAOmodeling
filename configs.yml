@@ -2,7 +2,7 @@ preference:
   dim: 5
   Member:
     distribution:
-      type: Guassion
+      type: Gaussion
       # 高斯分布Gaussion的参数
       sigma: 1
       mu: 0

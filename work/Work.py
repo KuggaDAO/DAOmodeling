@@ -6,10 +6,12 @@ class Work:
     # 基本设置信息configs为静态变量
     configs=None
 
-    def __init__(self,n_choice=2,random=True,**kwargs):
+    def __init__(self,label=None,n_choice=2,random=True,**kwargs):
         # 若没有指明该work的选项个数，则默认为两个选项
         self.n_choice=n_choice
         
+        self.label=label
+
         # 判断work的选项preference信息是否随机生成
         # 如果random=False则需要手动输入数据
         if random==False:
@@ -36,6 +38,7 @@ class Work:
                 )
             self.preferences=np.array(self.preferences)
         
+        # simplify=True触发
         # 判断是否获得简化版的work对象
         # 即两个选项preference为一组相反数
         if kwargs.get("simplify")==True:
@@ -47,6 +50,11 @@ class Work:
             # 取反操作
             self.preferences[1]=-self.preferences[0]
     
+    # 打印label信息
+    def __str__(self):
+        return "Work:"+str(self.label)
+
+
     # 根据configs信息获取单个preference
     @staticmethod
     def get_preference():
