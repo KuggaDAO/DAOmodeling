@@ -46,7 +46,7 @@ class Runner:
     def update_token(self, tokens):
         n_member=len(self.members)
         for i in range(n_member):
-            self.members[i]+=tokens[i]
+            self.members[i].token+=tokens[i]
 
 
     # 检查传入的object list规范性

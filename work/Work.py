@@ -49,6 +49,9 @@ class Work:
                 )
             # 取反操作
             self.preferences[1]=-self.preferences[0]
+        
+        # 投票结果
+        self.ans=None
     
     # 打印label信息
     def __str__(self):

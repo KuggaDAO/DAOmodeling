@@ -35,7 +35,7 @@ class Equal_Logic(Logic):
     # 由于只能投一票,所以数组中只能有一个数字为1
     @staticmethod
     def calculation(member, condition):
-        super().rule_match(Equal_Logic.logic_type,condition)
+        Logic.rule_match(Equal_Logic.logic_type,condition)
 
         n_choice=condition.work.n_choice
         decision=np.zeros([n_choice])

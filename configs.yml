@@ -1,5 +1,5 @@
 preference:
-  dim: 5
+  dim: 2
   Member:
     distribution:
       type: Gaussion
